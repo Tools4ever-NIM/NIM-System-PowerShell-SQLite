@@ -25,7 +25,7 @@ function Idm-SystemInfo {
         [string] $ConnectionParams
     )
 
-    Log info "-Connection=$Connection -TestConnection=$TestConnection -Configuration=$Configuration -ConnectionParams='$ConnectionParams'"
+    Log verbose "-Connection=$Connection -TestConnection=$TestConnection -Configuration=$Configuration -ConnectionParams='$ConnectionParams'"
     
     if ($Connection) {
         @(
@@ -309,7 +309,7 @@ function Idm-SystemInfo {
         @()
     }
 
-    Log info "Done"
+    Log verbose "Done"
 }
 
 
@@ -377,7 +377,7 @@ function Idm-Dispatcher {
         [string] $FunctionParams
     )
 
-    Log info "-Class='$Class' -Operation='$Operation' -GetMeta=$GetMeta -SystemParams='$SystemParams' -FunctionParams='$FunctionParams'"
+    Log verbose "-Class='$Class' -Operation='$Operation' -GetMeta=$GetMeta -SystemParams='$SystemParams' -FunctionParams='$FunctionParams'"
     $connection_params = ConvertFrom-Json2 $SystemParams
 
     if ($Class -eq '') {
@@ -493,7 +493,7 @@ function Idm-Dispatcher {
 
     }
 
-    Log info "Done"
+    Log verbose "Done"
 }
 
 
@@ -645,7 +645,7 @@ function Open-SQLiteConnection {
     $connection_params = ConvertFrom-Json2 $ConnectionParams
 
     if ($Global:SQLiteConnection -and $connection_string -ne $Global:SQLiteConnectionString) {
-        Log info "SQLiteConnection connection parameters changed"
+        Log verbose "SQLiteConnection connection parameters changed"
         Close-SQLiteConnection
     }
 
@@ -659,7 +659,7 @@ function Open-SQLiteConnection {
     }
     else {
         $connection_string = "Data Source=$($connection_params.path);Version=3;"
-        Log info "Opening SQLiteConnection '$($connection_string)'"
+        Log verbose "Opening SQLiteConnection '$($connection_string)'"
 
         try {
             Add-Type -Path $connection_params.dllpath
@@ -678,14 +678,14 @@ function Open-SQLiteConnection {
             Write-Error $_
         }
 
-        Log info "Done"
+        Log verbose "Done"
     }
 }
 
 
 function Close-SQLiteConnection {
     if ($Global:SQLiteConnection) {
-        Log info "Closing SQLiteConnection"
+        Log verbose "Closing SQLiteConnection"
 
         try {
             $Global:SQLiteConnection.Close()
@@ -695,6 +695,6 @@ function Close-SQLiteConnection {
             # Purposely ignoring errors
         }
 
-        Log info "Done"
+        Log verbose "Done"
     }
 }
